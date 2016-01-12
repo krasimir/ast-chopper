@@ -12,7 +12,7 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
-  font-family: Helvetica, Verdana;
+  font-family: Arial, Verdana;
   color: #000;
 }
 .container {
@@ -36,7 +36,7 @@ body {
 textarea {
   display: block;
   font-size: 0.8em;
-  font-family: Helvetica;
+  font-family: Arial;
   border: none;
   outline: none;
   resize: none;
@@ -67,20 +67,39 @@ textarea[name="ast"] {
   padding-bottom: 0.1em;
 }
 .node pre {
+  display: block;
   font-size: 0.8em;
   font-family: "Courier New";
   font-weight: bold;
-  border: 1px solid #ddd;
-  margin: 0.1em 0 0 0;
+  border-left: 1px solid #ddd;
+  margin: 0.1em 0 0 0.2em;
   color: #aaa;
   padding: 0.2em;
+}
+.node .node-attr {
+  display: block;
+  font-size: 0.8em;
+  color: #999;
 }
 .source-cursor {
   position: absolute;
   top: 2px;
   left: 50%;
-  margin-left: -32px;
+  margin-left: -55px;
+  width: 50px;
   font-size: 0.8em;
   color: #bbb;
   text-align: right;
+}
+.soft {
+  color: #bbb;
+}
+.props-link {
+  color: #999;
+  display: inline-block;
+  margin-left: 0.2em;
+  font-size: 0.9em;
+}
+.props-link:hover {
+  color: #000;
 }
