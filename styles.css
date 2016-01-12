@@ -1,0 +1,86 @@
+html {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Helvetica, Verdana;
+  color: #000;
+}
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.left, .right {
+  width: 50%;
+  height: 100%;
+}
+.left {
+  float: left;
+  border-right: 1px solid #999;
+}
+.right {
+  float: right;
+  padding: 1em;
+  overflow: scroll;
+}
+textarea {
+  display: block;
+  font-size: 0.8em;
+  font-family: Helvetica;
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 0.5em;
+  color: #333;
+}
+textarea[name="source"] {
+  width: 100%;
+  height: 40%;
+  border-bottom: 1px solid #999;
+}
+textarea[name="ast"] {
+  width: 100%;
+  height: 60%
+}
+.error {
+  color: #f00;
+  font-weight: bold;
+}
+.title {
+  border-bottom: 1px dotted #999;
+  margin-bottom: 0.2em;
+  padding-bottom: 0.2em;
+}
+.node {
+  font-size: 0.8em;
+  margin-bottom: 0.1em;
+  padding-bottom: 0.1em;
+}
+.node pre {
+  font-size: 0.8em;
+  font-family: "Courier New";
+  font-weight: bold;
+  border: 1px solid #ddd;
+  margin: 0.1em 0 0 0;
+  color: #aaa;
+  padding: 0.2em;
+}
+.source-cursor {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  margin-left: -32px;
+  font-size: 0.8em;
+  color: #bbb;
+  text-align: right;
+}
