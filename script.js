@@ -33,6 +33,18 @@ window.onload = function () {
       window[funcName] = func;
       return '<a href="javascript:' + funcName + '()" class=' + classes + ' style="' + inline + '">' + label + '</a>';
     },
+    linkMouseOver: function (label, funcOver, funcOut, classes, inline) {
+      var funcOverName = '__funcOver' + this.id();
+      var funcOutName = '__funcOut' + this.id();
+
+      window[funcOverName] = funcOver;
+      window[funcOutName] = funcOut;
+      
+      return '<a href="javascript:void(0);"' + 
+        'onmouseover="javascript:' + funcOverName + '()" ' +
+        'onmouseout="javascript:' + funcOutName + '()" ' +
+        'class=' + classes + ' style="' + inline + '">' + label + '</a>';
+    },
     addTitle: function (str) {
       return this.add(this.div(str, 'title'));
     },
@@ -78,9 +90,16 @@ window.onload = function () {
       output.addNode(
         [
           arrow(),
-          output.link(type, function () {
-            createSelection(sourceEl, source, node.loc.start, node.loc.end);
-          }, 'selection-link'),
+          output.linkMouseOver(
+            type,
+            function () {
+              createSelection(sourceEl, source, node.loc.start, node.loc.end);
+            },
+            function () {
+              clearSelection(sourceEl);
+            },
+            'selection-link'
+          ),
           formatLocString(node.loc),
           attrLinkPlaceholder,
           (sourceCode !== '' ? '<pre>' + sourceCode + '</pre>' : '')
@@ -256,4 +275,8 @@ function createSelection (area, input, startLoc, endLoc) {
   area.selectionStart = startPos;
   area.selectionEnd = endPos;
 };
+
+function clearSelection (area) {
+  area.selectionStart = area.selectionEnd = 0;
+}
 
