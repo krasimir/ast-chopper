@@ -73,13 +73,18 @@ window.onload = function () {
       return;
     }
     
-    if (isNumber(node.start) && isNumber(node.end) && node.loc) {
-      sourceCode = source.substr(node.start, node.end - node.start);
+    if (node.loc) {
+      sourceCode = getSourceCode(node.loc, source);
       output.addNode(
-        arrow() + 
-        type + ' <small class="soft">' + node.start + '-' + node.end + '</small>' +
-        attrLinkPlaceholder +
-        (sourceCode !== ''? '<pre>' + sourceCode + '</pre>' : ''),
+        [
+          arrow(),
+          output.link(type, function () {
+            createSelection(sourceEl, source, node.loc.start, node.loc.end);
+          }, 'selection-link'),
+          formatLocString(node.loc),
+          attrLinkPlaceholder,
+          (sourceCode !== '' ? '<pre>' + sourceCode + '</pre>' : '')
+        ].join(''),
         padding
       );
     } else {
@@ -126,7 +131,13 @@ window.onload = function () {
   };
 
   var displaySourceCursorPosition = function () {
-    sourceCursor.innerHTML = sourceEl.selectionStart;
+    var cursor = currentSelectionToLoc(sourceEl);
+
+    sourceCursor.innerHTML = [
+      sourceEl.selectionStart,
+      '<br />',
+      cursor.line + ':' + cursor.column
+    ].join('');
   };
 
   setInterval(parse, 500);
@@ -177,3 +188,72 @@ function hasChildren (ob) {
 function arrow () {
   return '<span style="display:inline-block;margin-right:2px;font-size:0.8em;">&#9484;</span>';
 };
+
+function getSourceCode (loc, input) {
+  var lines = input.split('\n');
+  var content = [], from, to, line;
+  var startLine = loc.start.line-1;
+  var endLine = loc.end.line-1;
+
+  for (var i=startLine; i<=endLine; i++) {
+    line = lines[i];
+    if (i === startLine) {
+      from = loc.start.column;
+      to = i === endLine ? loc.end.column : line.length;
+    } else if (i === endLine) {
+      from = 0;
+      to = loc.end.column;
+    } else {
+      from = 0;
+      to = line.length;
+    }
+    content.push(line.substr(from, to-from));
+  }
+  return content.join('\n');
+};
+
+function formatLocString (loc) {
+  return [
+    ' <small class="soft">',
+    loc.start.line + ':',
+    loc.start.column + '-',
+    loc.end.line + ':',
+    loc.end.column,
+    '</small>'
+  ].join('');
+};
+
+function currentSelectionToLoc (area) {
+  var textLines = area.value.substr(0, area.selectionStart).split("\n");
+  var currentLineNumber = textLines.length;
+  var currentColumnIndex = textLines[textLines.length-1].length;
+
+  return { line: currentLineNumber, column: currentColumnIndex };
+};
+
+function createSelection (area, input, startLoc, endLoc) {
+  var line = 0, linePos = 0, startPos, endPos, newLine = false;
+  // debugger;
+  for (var i=0; i<=input.length; i++) {
+    if (input.charAt(i) === '\n') {
+      newLine = true;
+    }
+    if (line === startLoc.line-1 && linePos === startLoc.column) {
+      startPos = i;
+    }
+    if (line === endLoc.line-1 && linePos === endLoc.column) {
+      endPos = i;
+    }
+    if (newLine) {
+      newLine = false;
+      linePos = 0;
+      ++line;
+    } else {
+      ++linePos;  
+    }
+  }
+  // debugger;
+  area.selectionStart = startPos;
+  area.selectionEnd = endPos;
+};
+
