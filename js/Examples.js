@@ -1,15 +1,11 @@
 function Examples () {
+  var path = './fixtures/';
   var select = el('.js-select-examples');
-  var examples = {
-    'e1': {
-      code: './fixtures/1/code',
-      ast: './fixtures/1/ast'
-    }
-  };
   var fetch = function (url, el) {
     $.ajax({
       url: url,
-      context: document.body
+      context: document.body,
+      dataType: 'text'
     }).done(function(res) {
       el.innerHTML = res;
     })
@@ -22,9 +18,8 @@ function Examples () {
     var example;
 
     if (e.target.value !== '') {
-      example = examples[e.target.value];
-      fetch(example.code, el('#js-source'))
-      fetch(example.ast, el('#js-ast'))
+      fetch(path + e.target.value + '/code.txt', el('#js-source'))
+      fetch(path + e.target.value + '/ast.txt', el('#js-ast'))
     }
   });
 };

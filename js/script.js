@@ -12,7 +12,7 @@ window.onload = function () {
 
     var type, sourceCode, padding, props, id, attrLinkPlaceholder;
 
-    type = readType(node) || prop;
+    type = readType(node) || output.safe(prop);
     padding = 'padding-left:' + (nesting*10) + 'px;';
     props = [];
     id = output.id();
@@ -20,7 +20,7 @@ window.onload = function () {
 
     // check for arrays
     if (Array.isArray(node)) {
-      output.addNode((node.length > 0 ? arrow() : '') + type, padding);
+      output.addNode((node.length > 0 ? arrow() : '') + output.safe(type), padding);
       node.forEach(function (n) {
         readNode(n, nesting+1, prop);
       });
@@ -29,28 +29,26 @@ window.onload = function () {
     
     if (node.loc) {
       sourceCode = getSourceCode(node.loc, source);
-      output.addNode(
+      output.addNodeMouseOver(
         [
           arrow(),
-          output.linkMouseOver(
-            type,
-            function () {
-              createSelection(sourceEl, source, node.loc.start, node.loc.end);
-            },
-            function () {
-              clearSelection(sourceEl);
-            },
-            'selection-link'
-          ),
+          output.safe(type),
           formatLocString(node.loc),
           attrLinkPlaceholder,
-          (sourceCode !== '' ? '<pre>' + sourceCode + '</pre>' : '')
+          (sourceCode !== '' ? '<pre>' + output.safe(sourceCode) + '</pre>' : '')
         ].join(''),
+        function () {
+          createSelection(sourceEl, source, node.loc.start, node.loc.end);
+        },
+        function () {
+          clearSelection(sourceEl);
+        },
+        'selection-link',
         padding
       );
     } else {
       if (hasChildren(node)) {
-        output.addNode(arrow() + type + attrLinkPlaceholder, padding);
+        output.addNode(arrow() + output.safe(type) + attrLinkPlaceholder, padding);
       } else {
         return;
       }
