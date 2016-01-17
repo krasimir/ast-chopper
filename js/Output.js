@@ -19,14 +19,14 @@ function Output (outputEl) {
     addNode: function (str, inline) {
       return this.add(this.div(str, 'node', inline));
     },
-    addNodeMouseOver: function (label, funcOver, funcOut, classes, inline) {
+    addNodeMouseOver: function (label, funcOver, funcOut, classes, inline, id) {
       return this.add(this.linkMouseOver(
         label,
         funcOver,
         funcOut,
         'node ' + classes, 
         inline,
-        ['<div', '</div>']
+        ['<div id="node' + id + '"', '</div>']
       ));
     },
     link: function (label, func, classes, inline) {

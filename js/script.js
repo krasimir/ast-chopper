@@ -30,7 +30,7 @@ window.onload = function () {
     }
     
     if (node.loc) {
-      nodesWithLoc.push(node);
+      nodesWithLoc.push({ node: node, id: id });
       sourceCode = getSourceCode(node.loc, source);
       output.addNodeMouseOver(
         [
@@ -47,7 +47,8 @@ window.onload = function () {
           clearSelection(sourceEl);
         },
         'selection-link',
-        padding
+        padding,
+        id
       );
     } else {
       if (hasChildren(node)) {
