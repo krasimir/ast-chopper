@@ -1,6 +1,6 @@
 # AST chopper
 
-You have an abstract syntax tree, the code that the tree is produced from and you want to verify the nodes inside are correct. The tool is language agnostic. As long as you have the original input and its AST it works.
+
 
 ## AST requirements
 

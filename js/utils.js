@@ -70,13 +70,32 @@ function getSourceCode (loc, input) {
   return content.join('\n');
 };
 
-function formatLocString (loc) {
+function formatLocString (node, input) {
+  var loc = node.loc;
+  var positions = locToPos(input, loc.start, loc.end);
+  var alertStr = '';
+  var compareLocWithPoss = function (node, input) {
+    if (
+      typeof node.start !== 'undefined' &&
+      typeof node.end !== 'undefined' &&
+      (node.start !== positions.start ||
+      node.end !== positions.end)
+    ) {
+      alertStr = 'Expected:\\n';
+      alertStr += '  node.start (' + node.start + ') = loc.start.column (' + positions.start + ')\\n';
+      alertStr += '  node.end (' + node.end + ') = loc.end.column (' + positions.end + ')';
+      return '<a href="javascript:alert(\'' + alertStr + '\');" class="positions-mismatch">!</a>'
+    }
+    return '';
+  };
+
   return [
     ' <small class="soft">',
     loc.start.line + ':',
     loc.start.column + '-',
     loc.end.line + ':',
     loc.end.column,
+    compareLocWithPoss(node, input),
     '</small>'
   ].join('');
 };
@@ -90,8 +109,15 @@ function currentSelectionToLoc (area) {
 };
 
 function createSelection (area, input, startLoc, endLoc) {
+  var positions = locToPos(input, startLoc, endLoc);
+
+  area.selectionStart = positions.start;
+  area.selectionEnd = positions.end;
+};
+
+function locToPos (input, startLoc, endLoc) {
   var line = 0, linePos = 0, startPos, endPos, newLine = false;
-  // debugger;
+  
   for (var i=0; i<=input.length; i++) {
     if (input.charAt(i) === '\n') {
       newLine = true;
@@ -110,9 +136,7 @@ function createSelection (area, input, startLoc, endLoc) {
       ++linePos;  
     }
   }
-  // debugger;
-  area.selectionStart = startPos;
-  area.selectionEnd = endPos;
+  return { start: startPos, end: endPos };
 };
 
 function clearSelection (area) {

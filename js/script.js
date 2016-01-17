@@ -6,6 +6,8 @@ window.onload = function () {
   var sourceCursor = el('#js-source-cursor');
   var source, ast;
   var output = Output(outputEl);
+  var json;
+  var nodesWithLoc = [];
 
   var readNode = function (node, nesting, prop) {
     if (!node) return;
@@ -28,12 +30,13 @@ window.onload = function () {
     }
     
     if (node.loc) {
+      nodesWithLoc.push(node);
       sourceCode = getSourceCode(node.loc, source);
       output.addNodeMouseOver(
         [
           arrow(),
           output.safe(type),
-          formatLocString(node.loc),
+          formatLocString(node, source),
           attrLinkPlaceholder,
           (sourceCode !== '' ? '<pre>' + output.safe(sourceCode) + '</pre>' : '')
         ].join(''),
@@ -64,13 +67,11 @@ window.onload = function () {
     }
 
     placePropertiesLink(id, output, props);
-
   };
 
   var parse = function () {
     var currentSource = sourceEl.value;
     var currentAST = astEl.value;
-    var json;
 
     if (!!currentSource && !!currentAST && (source !== sourceEl.value || ast !== astEl.value)) {
       source = sourceEl.value;
@@ -98,10 +99,21 @@ window.onload = function () {
       cursor.line + ':' + cursor.column
     ].join('');
   };
+  var getRawSourceCode = function () {
+    return source;
+  };
+  var getNodesWithLoc = function () {
+    return nodesWithLoc;
+  };
 
   setInterval(parse, 500);
   setInterval(displaySourceCursorPosition, 10);
 
   Examples();
+  Travel(
+    getNodesWithLoc,
+    getRawSourceCode,
+    createSelection.bind(this, sourceEl)
+  );
 
 };

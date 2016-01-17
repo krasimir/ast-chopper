@@ -1,3 +1,11 @@
-function isNumber (thing) {
-  return typeof thing === 'number';
-};
+E ~ F {
+  color: #000;
+  background: #F00;
+}
+E > F {
+  color: #000;
+}
+E + F {
+  color: #000;
+  background: #F00;
+}

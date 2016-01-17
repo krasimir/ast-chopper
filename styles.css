@@ -13,7 +13,8 @@ body {
   width: 100%;
   height: 100%;
   font-family: Arial, Verdana;
-  color: #000;
+  color: #B0B0B0;
+  background: #3F3F3F;
 }
 nav {
   height: 40px;
@@ -29,7 +30,7 @@ nav ul {
 }
 nav li {
   float: left;
-  border-right: 1px solid #999;
+  border-right: 1px solid #888;
   padding: 10px;
 }
 nav:after {
@@ -53,7 +54,8 @@ nav:after {
 .right {
   float: right;
   padding: 1em;
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 textarea {
   display: block;
@@ -63,7 +65,8 @@ textarea {
   outline: none;
   resize: none;
   padding: 0.5em;
-  color: #333;
+  color: #FFF;
+  background: #3F3F3F;
 }
 textarea[name="source"] {
   width: 100%;
@@ -83,6 +86,7 @@ textarea[name="ast"] {
 .error {
   color: #f00;
   font-weight: bold;
+  background: #FFF;
 }
 .title {
   border-bottom: 1px dotted #999;
@@ -90,13 +94,17 @@ textarea[name="ast"] {
   padding-bottom: 0.2em;
 }
 .node {
+  background: #3F3F3F;
   font-size: 0.8em;
   margin-bottom: 0.1em;
   padding-bottom: 0.1em;
 }
 .node:hover {
-  background: #E8E7C1;
+  color: #FFF;
+  background: #000;
   border-right: 3px solid #999;
+  transition: background 800ms ease-out;
+  -webkit-transition: background 800ms ease-out;
 }
 .node pre {
   display: block;
@@ -133,9 +141,34 @@ textarea[name="ast"] {
   font-size: 0.9em;
 }
 .props-link:hover {
-  color: #000;
+  color: #fff;
 }
 .selection-link {
-  color: #000;
+  color: #FFF;
   text-decoration: none;
+}
+.positions-mismatch {
+  display: inline-block;
+  color: #FFF;
+  background: #F00;
+  padding: 0 0.4em;
+  margin: 0 0.4em;
+}
+.travel {
+  float: right;
+  font-size: 0.8em;
+  padding: 3px 10px 0 0;
+}
+.travel a {
+  color: #fff;
+}
+.travel a:hover {
+  color: #B0B0B0;
+}
+.travel-status {
+  display: inline-block;
+  font-size: 0.9em;
+  color: #A0A0A0;
+  text-align: right;
+  width: 100%;
 }
