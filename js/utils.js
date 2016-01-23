@@ -54,7 +54,7 @@ function getSourceCode (loc, input) {
 
   for (var i=startLine; i<=endLine; i++) {
     line = lines[i];
-    if (!line) return content.join('\n');
+    if (typeof line === 'undefined') return content.join('\n');
     if (i === startLine) {
       from = loc.start.column;
       to = i === endLine ? loc.end.column : line.length;

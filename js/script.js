@@ -77,6 +77,7 @@ window.onload = function () {
     if (!!currentSource && !!currentAST && (source !== sourceEl.value || ast !== astEl.value)) {
       source = sourceEl.value;
       ast = astEl.value;
+      nodesWithLoc = [];
       try {
         json = JSON.parse(ast);
       } catch(err) {

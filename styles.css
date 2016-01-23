@@ -70,9 +70,8 @@ textarea {
 }
 textarea[name="source"] {
   width: 100%;
-  height: 40%;
+  height: 60%;
   border-bottom: 1px solid #999;
-  font-size: 1.2em;
 }
 textarea[name="source"]::selection {
   background: #ffcc66;
@@ -81,7 +80,7 @@ textarea[name="source"]::selection {
 }
 textarea[name="ast"] {
   width: 100%;
-  height: 60%
+  height: 40%
 }
 .error {
   color: #f00;
@@ -125,7 +124,7 @@ textarea[name="ast"] {
   position: absolute;
   top: 2px;
   left: 50%;
-  margin-left: -55px;
+  margin-left: -72px;
   width: 50px;
   font-size: 0.8em;
   color: #bbb;
